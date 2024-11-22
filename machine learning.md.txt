@@ -1,0 +1,381 @@
+# 监督学习（supervised learning）
+
+目前应用最广的机器学习算法 x->y(提供反复提供输入x和期望输出的y来训练机器，以实现输入x后y自动得到期望值)
+
+## 算法
+
+## 回归：从多个可能的数据中返回一个最有可能的数据——任务是预测数据
+
+#### 回归模型
+
+##### 线性回归
+
+
+
+分类：只有少量的输出的可能——预测的是分类可以是数字也可以是其他（class /category）
+
+# 无监督学习
+
+得到的数据与输入的标记无关，没有标签y——目的是分析数据本身，让算法自己找内部的结构和特点
+
+## 算法
+
+聚类：让机器自发的在数据中找到族——把相似的找到，并分组聚类
+
+ 异常检测：
+
+降维：
+
+# jupyter notebook
+
+在里面跑代码即可
+
+# 代价函数和预测函数
+
+代价函数，j（w，b）：用于衡量预测函数的误差=y预测-y真平方和的累加/2m————多维的，需要3d建图找最小————可视化为二维//投影成等高线即可，最小值在椭圆的中心
+
+预测函数：f=wx+b；
+
+# 梯度下降
+
+最小化任何函数的方法——适用于一切函数
+
+J(w1,w2,w3) want min j(w,b);
+
+1.先让他们一开始都为零，后不断调整，让他们接近全局（局部）的最小值，类比为上山下山——找到梯度最大的方向，走下山！ 贪心递归去找，直至走到为最低
+
+2.通过不断变化一开始的落脚点来不断变化，科研找到多个局部最低点
+
+3.![image-20241014171322958](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241014171322958.png)
+
+更新方法：确定学习率a，来决定了下降的步幅，而偏导则决定了方向，注意：要保证同步更新，不可有先后之分（借助一个temp）
+
+![image-20241014171421879](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241014171421879.png)
+
+学习率 α 要取一个适中的值，太小会太慢，太大会左右横跳
+
+
+
+多元线性回归——w与x的输入取值均是多个数据（一组向量）
+
+向量化编程（循环编程的优化）
+
+```python
+f=np.dot(w,x)+b;
+```
+
+快捷性原理解释（类比于并发，可以一步同步计算）
+
+![image-20241014204741051](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241014204741051.png)
+
+本质还是把，w和x看作向量
+
+正规方程：只能用于线性回归模型，在后台算出w和b
+
+特征缩放技术——让梯度下降更快一些（优化）
+
+当一个特征值x变化明显，则可取其参数小一些
+
+![image-20241014205540773](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241014205540773.png)
+
+适当缩放范围，避免过度变化，且不明显
+
+![image-20241014205739962](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241014205739962.png)
+
+概率论中的归一标准化
+
+高斯分布（正太标准化）
+
+![image-20241014205909019](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241014205909019.png)
+
+合理选择学习率
+
+![image-20241014211647969](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241014211647969.png)
+
+合理的学习曲线是类比于反比例函数下降的
+
+自定义特征选取
+
+多项式回归，利用x的多项式，拟合出曲线来表示
+
+决策边界 令z的取值为0，来界定y的取值（人为设定）
+
+
+
+逻辑回归（虽然是回归，但是用于解决分类问题）
+
+sigmod函数
+
+![image-20241015112811670](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015112811670.png)
+
+换元回归即可
+
+设置的阈值，让取值大于该值取1，小于该值取0
+
+![image-20241015113334617](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015113334617.png)
+
+对于逻辑回归，代价函数通常不选用平方差法——得到的图像非凸
+
+所以采用损失函数，分类讨论，真实值y，进而建立不同的损失模型
+
+损失函数
+
+![image-20241015123058133](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015123058133.png)
+
+![image-20241015123254413](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015123254413.png)
+
+此时新的代价函数为，各个损失函数的平均值（通过极大似然估计得到的结果）
+
+![image-20241015123504826](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015123504826.png)
+
+两个式子的合并，是等价的
+
+逻辑回归的梯度下降，同样还是最小化代价函数
+
+# 过拟合问题
+
+定义：
+
+![image-20241015124854248](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015124854248.png)
+
+左边有高偏差（欠拟合），右边有高方差（过拟合）
+
+正则化：解决过拟合问题——尽可能让算法缩小参数的值
+
+保留所有特征，并缩小参数的值
+
+1.改进代价函数
+
+![image-20241015133540713](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015133540713.png)
+
+利用对x3，x4赋一个大值，去优化参数，逐步排查，使用梯度下降即可
+
+2.参数正则化
+
+最小化第一项，是代价函数最小，更符合数据本身
+
+最小化第二项（正则化项）——促进拟合，避免了过拟合
+
+此时λ类比于学习率系数，需合理取值，过大会欠拟合，过小会过拟合
+
+![image-20241015133729926](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015133729926.png)
+
+正则化的求导原理，迭代
+
+![image-20241015135244708](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015135244708.png)
+
+
+
+![image-20241015125229599](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015125229599.png)
+
+解决过拟合问题：增加多的样本输入数量，或者挑选特征的一部分——存在缺陷后续解决
+
+# 高级学习算法：神经网络（神经元）
+
+目的是像人一样思考
+
+人脑与神经的关联：
+
+神经元，可以接受信息，并且可以作为输出给其他神经元做输入
+
+![image-20241015203633633](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015203633633.png)
+
+![image-20241015235736520](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241015235736520.png)
+
+神经网络之于计算机视觉
+
+构建神经网络，逐层提取特征，直到输出层，对图像微分，每层分析部分区域，训练
+
+## 如何构造一层神经元
+
+上方方括号表示层数，右下角数字表示该层的第几个参数
+
+层数不计入输入层，计入输出层
+
+![image-20241016001508888](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016001508888.png)
+
+每一层的输出向量，做下一层的输入
+
+## 利用神经网络做预测：前向传播
+
+![image-20241016002120791](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016002120791.png)
+
+tenserflow
+
+直接串联在一起了
+
+# AGI
+
+强人工智能，让ai做人类能做的事情
+
+![image-20241016094539746](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016094539746.png)
+
+![image-20241016095520236](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016095520236.png)
+
+神经网络矢量化实现（矩阵乘法）
+
+激活函数中：
+
+目前应用最广的肯定是RELU函数，除非输出层是二分的情况，才会用sigmod函数
+
+![image-20241016162921414](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016162921414.png)
+
+softmax回归
+
+多标签分类问题
+
+与输入有关，输入有多个标签
+
+ 优化算法：
+
+1.梯度下降
+
+2.Adam 在梯度下降的基础上如果多次优化时都是像同一个/不同方向进行，那么可以用Adam来动态调整α；
+
+之前了解的神经网络都是使用的全连接层
+
+卷积神经网络（cnn）
+
+卷积层：层内的单元只关注样本的一部分
+
+反向传播——计算导数，从右向左计算，相当于求导的链式法则了，从右借助公式倒退就行了
+
+计算图，神经网络中计算导数，把每一步拆分，微元法去计算，只需要n+p的复杂度，倒着判即可，而正序判的话需要np，每一次都要扫一遍
+
+诊断算法
+
+衡量模型性能：分为训练集和测试集
+
+![image-20241016222556935](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016222556935.png)
+
+综合去比较J test和 J train
+
+![image-20241016222718712](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016222718712.png)
+
+交叉验证集，引入，用于比较不同模型的泛化误差，评估性能进而选择合适的模型，为了决策公平，所以借助测试集和交叉验证集做决策，选定方案后用验证集衡量拟合误差
+
+算法高偏差： J train 很大
+
+算法高方差： J cv >> J train
+
+![image-20241016224056929](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016224056929.png)
+
+找到适当的偏差和方差，如图去匹配两个J
+
+正则化引入的合理性：
+
+![image-20241016224811807](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016224811807.png)
+
+当判断 J train 是否高时，选一个标准很重要，可以是与人类的对比，也可以是与之前的算法对比
+
+![image-20241016225222569](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016225222569.png)
+
+学习曲线
+
+画出学习曲线，进而分析误差的类别与大小
+
+修正学习算法
+
+![image-20241016230316016](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241016230316016.png)
+
+误差分析
+
+在分类过程中，从错误中人为的修复（手动分类）找到主要的部分，对点攻破
+
+添加数据同理，根据问题，对点专注添加相关的数据
+
+迁移工作：优化后面层的输入，使其输入更合理，学习前面层的参数
+
+误差指标
+
+精确率
+
+![image-20241017103135813](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241017103135813.png) 
+
+召回率 
+
+  高级算法：决策树
+
+如何构建决策树 类比于二叉树，即不断降维分类即可。
+
+熵函数 
+
+熵的减少称为信息增益 
+
+衡量样本纯度的方法：熵（混乱程度）
+
+![image-20241018110441696](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241018110441696.png)
+
+对分支取加权平均比较好 
+
+      ## 无监督学习
+
+主要是帮助区分，而不求值
+
+让算法从数据中找特点
+
+### 聚类算法
+
+利用算法对数据操作找到具有相似的特点的几组数据集合
+
+K-means 均值聚类算法
+
+随机找到猜测组中心，判断各点距离中心的距离，并移动
+
+再调节质心 
+
+## 异常检测算法
+
+密度检测 建立模型——找到高概率，排晒低概率的
+
+用高斯（正太）分布建模
+
+ ![image-20241020231758725](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241020231758725.png)
+
+把平均值拟合成μ，看差距即可——推广到向量化（多个特点）
+
+统计独立与不独立都没有影响
+
+![image-20241020232518136](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241020232518136.png)
+
+ 
+
+协同过滤算法——根据已知的评分，向用户推荐
+
+把线性模型类比迁移到逻辑回归模型
+
+二进制标签
+
+归一化——希望算法对新的用户做出预测是不因为w/b受到干扰
+
+![image-20241021164845350](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241021164845350.png)
+
+对有数字的值，求出平均情况，后减去平均值
+
+![image-20241021165014510](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241021165014510.png)
+
+相当于是让一个新用户指定为之前的平均值而不是简单的默认为0
+
+AUTO diff 自动梯度下降
+
+基于内容过滤算法——结合用户和商品本身的特点来做匹配
+
+# 强化学习
+
+通过给状态——让机器分析对应的动作
+
+关键是输入奖励函数——告诉机器什么是对的，什么是应该做的（what）。机器会自动反应怎么做（how）
+
+四个要素，状态 行动 奖励 下一个状态
+
+回报：越往后越不耐烦，乘以一个系数——折扣力度
+
+找到动作使回报最大化。
+
+状态动作价值函数：相当于递归了，在做完一起后就假设了到达最佳状态
+
+贝尔曼方程  （dp）
+
+![image-20241021234531358](C:/Users/30122/AppData/Roaming/Typora/typora-user-images/image-20241021234531358.png)
+
+期望回归值  
